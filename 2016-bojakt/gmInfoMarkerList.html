@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+<meta charset="utf-8">
+<title>Info windows</title>
+<style>
+html,body {
+	height: 100%;
+	margin: 0;
+	padding: 0;
+}
+
+#map {
+	height: 100%;
+}
+</style>
+</head>
+<body>
+	<div id="map"></div>
+	<script>
+		// This example displays a marker at the center of Göteborg, 
+		// When the user clicks the marker, an info window opens.
+
+		function initMap() {
+			var location_point = [ {
+				"id" : '14 80',
+				"name" : 'GÖTEBORG',
+				"location" : {
+					"lat" : 57.2226908,
+					"lng" : 12.1335348
+				},
+				"info" : 'Detta är lite info om göteborg'
+			}, {
+				"id" : '14 81',
+				"name" : 'MOLNDAL',
+				"location" : {
+					"lng" : 11.9335348
+				},
+				"info" : 'Detta är lite info om MöLNDAL'
+			} ];
+
+			
+
+			var map = new google.maps.Map(document.getElementById('map'), {
+				zoom : 9,
+				center : location_point[0].location
+			});
+			var infowindow = new google.maps.InfoWindow({
+				content : ''
+			});
+			
+			for (var i = 0; i < location_point.length; i++) {
+				add_marker(location_point[i]);
+			}
+
+			function add_marker(location_point) {
+				console.log('point: '+ JSON.stringify( location_point.location));
+				var marker = new google.maps.Marker({
+					map : map,
+					position : location_point.location,
+					clickable : true
+				});
+				marker.note = location_point.info;
+				google.maps.event.addListener(marker, 'click', function() {
+					infowindow.content = marker.note;
+					infowindow.open(map, marker);
+				});
+				return marker;
+			}
+		}
+		
+	</script>
+	<script async defer
+		src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBS1oIuhq3ZkNcIc1FxOHFt3meJXGbK4g0&callback=initMap">
+		
+	</script>
+</body>
+</html>

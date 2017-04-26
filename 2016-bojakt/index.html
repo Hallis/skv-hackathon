@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+	<meta charset="utf-8">
+	<title>BoJakt</title>
+
+	<script src="js/jquery-3.1.0.min.js"></script>
+	<script src="js/jquery-ui.min.js"></script>
+	<script src="js/bojakt.js"></script>
+
+	<link rel="stylesheet" href="css/jquery-ui.min.css">
+	<link rel="stylesheet" href="css/bojakt.css">
+</head>
+
+
+
+<body>
+	<h1>BoJakt v2.0</h1>
+
+	<div id="sokfilter">
+
+		<h3>Kommunalskatt</h3>
+		<div id="filter_kommunalskatt" class="filter">
+			<div id="komskatt_slider"></div>
+			<p id="komskatt_text">29 - 30</p>
+		</div>
+		
+		<h3>Kommuner</h3>
+		<div id="filter_kommun" class="filter">
+			<fieldset id="kommuner">
+				<legend>Kommuner:</legend>
+				<!-- populeras av skript -->
+			</fieldset>
+		</div>
+		
+	</div>
+
+	<button id="button_sok" class="ui-button ui-widget ui-corner-all">Sök!</button>
+
+	<div id="indata"></div>
+	<div id="sokresultat"></div>
+
+	<script type="text/javascript">
+		$(function(){
+			bojakt.init();
+		});
+	</script>
+	<script async defer
+		src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBS1oIuhq3ZkNcIc1FxOHFt3meJXGbK4g0">
+	</script>
+
+</body>
+</html>

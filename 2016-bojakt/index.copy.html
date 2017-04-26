@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+	<meta charset="utf-8">
+	<title>BoJakt</title>
+
+	<link rel="stylesheet" href="css/bojakt.css">
+	<link rel="stylesheet" href="css/jquery-ui.min.css">
+
+	<script src="js/bojakt.js"></script>
+	<script src="js/jquery-3.1.0.min.js"></script>
+	<script src="js/jquery-ui.min.js"></script>
+
+	<script>
+		$( function() {
+			$( "#selectable" ).selectable();
+		} );
+	</script>
+
+
+	<script>
+		/* global $ */
+		$(function() {
+			$( "#komskatt_slider" ).slider({
+				range:true,
+				min: 25,
+				max: 40,
+				values: [ 30, 35 ],
+				slide: function( event, ui ) {
+					var myText = document.getElementById("komskatt_text");
+					myText.textContent = ui.values[ 0 ] + " - " + ui.values[ 1 ];
+				}
+			});
+		});
+    </script>
+
+
+</head>
+
+<body>
+<form action="/" id="searchForm">
+
+	<table class="tg">
+	  <tr>
+	    <th class="tg-yw4l" width="25%">Filter</th>
+	    <th class="tg-yw4l" width="75%">Värde</th>
+	  </tr>
+	  <tr>
+	    <td class="tg-yw4l">Kommun</td>
+	    <td class="tg-yw4l">
+			<ol id="selectable">
+			  <li class="ui-widget-content">Göteborg</li>
+			  <li class="ui-widget-content">Partille</li>
+			  <li class="ui-widget-content">Öckerö</li>
+			  <li class="ui-widget-content">Mölndal</li>
+			</ol>
+	    </td>
+	  </tr>
+	  <tr>
+	    <td class="tg-yw4l">Kommunalskatt</td>
+	    <td class="tg-yw4l">
+	    	<div id="komskatt_slider"></div><p id="komskatt_text">30 - 35</p>
+	    </td>
+	  </tr>
+	</table>
+
+	<input type="submit" name="Sök"/>
+
+</form>
+
+<div id="indata"></div>
+<div id="result"></div>
+
+
+<script> 
+// Attach a submit handler to the form
+
+	$( "#searchForm" ).submit(function( event )
+	{
+		// Stop form from submitting normally
+		event.preventDefault();
+
+		// Get some values from elements on the page:
+		var sel_options = $( ".selector" ).selectable( "option" );
+		var $form = $( this ),
+			term = $('#komskatt_slider').slider("values") + "&kommun:" + sel_options,
+			url = "http://bojakt-be-mhallberg.c9users.io:8080";
+
+		$( "#indata" ).empty().append( "Anropar <a href='" + url + "'>" + url + "</a> med " + term);
+
+		// Send the data using post
+		var posting = $.post( url, term );
+
+		// Put the results in a div
+		posting.done(function( data ) {
+//			var content = $( data ).find( "#content" );
+			$( "#result" ).empty().append( "Success: " + data );
+		});
+
+		posting.fail(function(data) {
+			$( "#result" ).append( "Fail :( ");
+		});
+	});
+
+
+</script>
+
+</body>
+</html>
